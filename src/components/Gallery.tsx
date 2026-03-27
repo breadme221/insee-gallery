@@ -7,10 +7,11 @@ import JSZip from "jszip";
 const S3_BASE = process.env.NEXT_PUBLIC_S3_BASE || "https://insight-x-gallery.s3.ap-northeast-2.amazonaws.com";
 const s3url = (path: string) => path?.startsWith("http") ? path : `${S3_BASE}/${path}`;
 
-// 데이터 로드 함수 — JS 파일에서 JSON 추출
+// 데이터 로드 함수 — S3에서 직접 JS 파일 가져와서 JSON 추출
 async function loadGalleryData(): Promise<any> {
   try {
-    const res = await fetch("/data_tagged.js");
+    // S3에서 직접 로드 (Vercel 보호 설정 우회)
+    const res = await fetch(`${S3_BASE}/data_tagged.js`);
     const text = await res.text();
     const match = text.match(/const GALLERY_DATA\s*=\s*/);
     if (!match) return null;

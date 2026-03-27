@@ -1198,9 +1198,18 @@ export default function Gallery() {
     setModalScreens(screens || []);
   };
 
+  const composingRef = useRef(false);
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.nativeEvent.isComposing || (e.nativeEvent as any).keyCode === 229) return;
-    if (e.key === "Enter" && aiSearchQuery.trim()) handleAISearch(aiSearchQuery);
+    if (composingRef.current) return;
+    if (e.key === "Enter" && aiSearchQuery.trim()) {
+      e.preventDefault();
+      handleAISearch(aiSearchQuery);
+    }
+  };
+  const handleCompositionStart = () => { composingRef.current = true; };
+  const handleCompositionEnd = (e: React.CompositionEvent<HTMLInputElement>) => {
+    composingRef.current = false;
+    // 한국어 조합 완료 후 Enter가 바로 이어지면 검색 실행
   };
 
   const hasFilters =
@@ -1254,6 +1263,8 @@ export default function Gallery() {
                   value={aiSearchQuery}
                   onChange={(e) => setAiSearchQuery(e.target.value)}
                   onKeyDown={handleKeyDown}
+                  onCompositionStart={handleCompositionStart}
+                  onCompositionEnd={handleCompositionEnd}
                   placeholder="AI 검색 (예: 결제 화면, 토스 온보딩)"
                   className="w-full px-4 py-2.5 pl-10 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:border-accent focus:bg-white text-sm transition-all"
                 />

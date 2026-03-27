@@ -94,29 +94,56 @@ const PATTERN_KEYWORDS: Record<string, string[]> = {
 };
 
 // ==========================================
-// 앱 아이콘 컴포넌트
+// 앱 아이콘 맵 로드
+// ==========================================
+let _iconMap: Record<string, string> | null = null;
+async function loadIconMap() {
+  if (_iconMap) return _iconMap;
+  try {
+    const r = await fetch("/icons/icon_map.json");
+    _iconMap = await r.json();
+  } catch { _iconMap = {}; }
+  return _iconMap!;
+}
+
+function useIconMap() {
+  const [map, setMap] = useState<Record<string, string>>({});
+  useEffect(() => { loadIconMap().then(setMap); }, []);
+  return map;
+}
+
+// ==========================================
+// 앱 아이콘 컴포넌트 (실제 아이콘 + 폴백)
 // ==========================================
 function AppIcon({
   app,
   size = 52,
   onClick,
   isActive,
+  iconMap,
 }: {
   app: any;
   size?: number;
   onClick?: (app: any) => void;
   isActive?: boolean;
+  iconMap?: Record<string, string>;
 }) {
   const color = CATEGORY_COLORS[app.category] || "#6b7280";
   const initial = (app.name || "?").replace(/^(wwit_|the\s)/i, "")[0].toUpperCase();
+  const iconFile = iconMap?.[app.id];
+
   return (
     <button
       onClick={() => onClick?.(app)}
-      className={`app-icon-btn flex items-center justify-center text-white font-bold select-none ${isActive ? "active" : ""}`}
-      style={{ width: size, minWidth: size, height: size, backgroundColor: color, fontSize: size * 0.38 }}
+      className={`app-icon-btn flex items-center justify-center select-none overflow-hidden ${isActive ? "active" : ""}`}
+      style={{ width: size, minWidth: size, height: size, backgroundColor: iconFile ? "transparent" : color, fontSize: size * 0.38 }}
       title={app.name}
     >
-      {initial}
+      {iconFile ? (
+        <img src={`/icons/${iconFile}`} alt={app.name} className="w-full h-full object-cover" />
+      ) : (
+        <span className="text-white font-bold">{initial}</span>
+      )}
     </button>
   );
 }
@@ -130,10 +157,12 @@ function FeaturedAppBar({
   onAppClick,
   activeAppId,
   DATA,
+  iconMap,
 }: {
   onAppClick: (app: any) => void;
   activeAppId?: string;
   DATA: any;
+  iconMap: Record<string, string>;
 }) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const animRef = useRef<number>(0);
@@ -215,7 +244,7 @@ function FeaturedAppBar({
         onPointerLeave={onPointerUp}
       >
         {tripled.map((app: any, i: number) => (
-          <AppIcon key={`${app.id}-${i}`} app={app} onClick={onAppClick} isActive={activeAppId === app.id} />
+          <AppIcon key={`${app.id}-${i}`} app={app} onClick={onAppClick} isActive={activeAppId === app.id} iconMap={iconMap} />
         ))}
       </div>
     </div>
@@ -233,14 +262,17 @@ function AppCard({
   app,
   screens,
   onClick,
+  iconMap,
 }: {
   app: any;
   screens: any[];
   onClick: (app: any) => void;
+  iconMap: Record<string, string>;
 }) {
   const thumbIndex = CUSTOM_THUMBNAILS[app.id] || CUSTOM_THUMBNAILS[app.name] || 0;
   const preview = screens[thumbIndex] || screens[0];
   const color = CATEGORY_COLORS[app.category] || "#6b7280";
+  const iconFile = iconMap?.[app.id];
 
   return (
     <div
@@ -264,9 +296,12 @@ function AppCard({
       <div className="p-3 pt-3">
         <div className="flex items-center gap-2">
           <div
-            className="w-6 h-6 rounded-md flex items-center justify-center text-white text-[10px] font-bold flex-shrink-0"
-            style={{ backgroundColor: color }}
+            className="w-6 h-6 rounded-md flex items-center justify-center text-white text-[10px] font-bold flex-shrink-0 overflow-hidden"
+            style={{ backgroundColor: iconFile ? "transparent" : color }}
           >
+            {iconFile ? (
+              <img src={`/icons/${iconFile}`} alt="" className="w-full h-full object-cover" />
+            ) : null}
             {(app.name || "?")[0].toUpperCase()}
           </div>
           <div className="min-w-0">
@@ -867,6 +902,7 @@ export default function Gallery() {
   // Data loading — S3에서 직접 로드
   const [DATA, setDATA] = useState<any>({ apps: [], screens: [], categories: ['All'], patterns: ['All'] });
   const [loading, setLoading] = useState(true);
+  const iconMap = useIconMap();
   const [loadError, setLoadError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -1268,7 +1304,7 @@ export default function Gallery() {
 
       {/* Featured App Bar */}
       {view === "home" && !selectedFlow && !selectedElement && !hasFilters && (
-        <FeaturedAppBar onAppClick={handleAppClick} activeAppId={selectedApp?.id} DATA={DATA} />
+        <FeaturedAppBar onAppClick={handleAppClick} activeAppId={selectedApp?.id} DATA={DATA} iconMap={iconMap} />
       )}
 
       {/* Main */}
@@ -1369,7 +1405,7 @@ export default function Gallery() {
           <div>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
               {filteredApps.map((app: any) => (
-                <AppCard key={app.id} app={app} screens={screensByApp[app.id] || []} onClick={handleAppClick} />
+                <AppCard key={app.id} app={app} screens={screensByApp[app.id] || []} onClick={handleAppClick} iconMap={iconMap} />
               ))}
             </div>
             {filteredApps.length === 0 && (

@@ -864,17 +864,26 @@ function Modal({
 // 메인 Gallery 컴포넌트
 // ==========================================
 export default function Gallery() {
-  // Data loading — fetch로 직접 로드
+  // Data loading — S3에서 직접 로드
   const [DATA, setDATA] = useState<any>({ apps: [], screens: [], categories: ['All'], patterns: ['All'] });
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState<string | null>(null);
 
   useEffect(() => {
-    loadGalleryData().then((data) => {
-      if (data && data.apps?.length > 0) {
-        setDATA(data);
-      }
-      setLoading(false);
-    });
+    loadGalleryData()
+      .then((data) => {
+        if (data && data.apps?.length > 0) {
+          setDATA(data);
+        } else {
+          setLoadError("데이터를 불러왔지만 앱이 없습니다. S3 데이터를 확인해주세요.");
+        }
+        setLoading(false);
+      })
+      .catch((e) => {
+        console.error("Data load failed:", e);
+        setLoadError(`데이터 로딩 실패: ${e.message || "네트워크 오류"}`);
+        setLoading(false);
+      });
   }, []);
 
   // 스크린이 있는 앱만 필터
@@ -1163,6 +1172,18 @@ export default function Gallery() {
         <div className="text-center">
           <div className="inline-block w-8 h-8 border-2 border-accent border-t-transparent rounded-full animate-spin mb-4" />
           <p className="text-gray-400 text-sm">Loading gallery data...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (loadError) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center max-w-md">
+          <p className="text-red-500 text-lg font-semibold mb-2">로딩 실패</p>
+          <p className="text-gray-500 text-sm mb-4">{loadError}</p>
+          <button onClick={() => window.location.reload()} className="px-4 py-2 bg-gray-900 text-white rounded-xl hover:bg-gray-800 transition-colors text-sm">새로고침</button>
         </div>
       </div>
     );

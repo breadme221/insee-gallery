@@ -5,7 +5,7 @@ import JSZip from "jszip";
 
 // S3 이미지 베이스 URL — 상대경로를 절대경로로 변환
 const S3_BASE = process.env.NEXT_PUBLIC_S3_BASE || "https://insight-x-gallery.s3.ap-northeast-2.amazonaws.com";
-const img = (path: string) => path?.startsWith("http") ? path : `${S3_BASE}/${path}`;
+const s3url = (path: string) => path?.startsWith("http") ? path : `${S3_BASE}/${path}`;
 
 // ==========================================
 // Agentation (dev only)
@@ -235,7 +235,7 @@ function AppCard({
         <div className="phone-lift w-[75%]">
           <div className="phone-frame bg-gray-100 rounded-2xl overflow-hidden shadow-sm">
             {preview ? (
-              <img src={img(preview.image)} alt="" className="w-full h-full object-cover object-top" loading="lazy" />
+              <img src={s3url(preview.image)} alt="" className="w-full h-full object-cover object-top" loading="lazy" />
             ) : (
               <div className="w-full h-full bg-gray-100" />
             )}
@@ -301,7 +301,7 @@ function ScreenCard({
       await new Promise((res, rej) => {
         img.onload = res;
         img.onerror = rej;
-        img.src = img(screen.image);
+        img.src = s3url(screen.image);
       });
       const c = document.createElement("canvas");
       c.width = img.naturalWidth;
@@ -325,7 +325,7 @@ function ScreenCard({
     >
       <div className="phone-frame bg-gray-100 rounded-xl overflow-hidden">
         <img
-          src={img(screen.image)}
+          src={s3url(screen.image)}
           alt={screen.patterns?.join(", ") || ""}
           className="w-full h-full object-cover object-top"
           loading="lazy"
@@ -437,7 +437,7 @@ function AppDetailView({
       const zip = new JSZip();
       for (let i = 0; i < displayScreens.length; i++) {
         try {
-          const r = await fetch(img(displayScreens[i].image));
+          const r = await fetch(s3url(displayScreens[i].image));
           const blob = await r.blob();
           const ext = displayScreens[i].image.split(".").pop() || "png";
           zip.file(
@@ -772,7 +772,7 @@ function Modal({
           {/* 폰 프레임 */}
           <div className="flex-shrink-0 p-6 bg-gray-50 flex items-center justify-center rounded-l-2xl">
             <div className="phone-frame w-64 rounded-[2rem] overflow-hidden shadow-lg border border-gray-200">
-              <img src={img(screen.image)} alt="" className="w-full h-full object-cover" />
+              <img src={s3url(screen.image)} alt="" className="w-full h-full object-cover" />
             </div>
           </div>
 
@@ -963,7 +963,7 @@ export default function Gallery() {
       for (const s of DATA.screens.filter((s: any) => selectedScreens.has(s.id))) {
         try {
           const app = DATA.apps.find((a: any) => a.id === s.appId);
-          const r = await fetch(img(s.image));
+          const r = await fetch(s3url(s.image));
           zip.file(`${app?.name || "unknown"}_${s.id}.png`, await r.blob());
         } catch {}
       }

@@ -296,13 +296,14 @@ function AppCard({
       <div className="p-3 pt-3">
         <div className="flex items-center gap-2">
           <div
-            className="w-6 h-6 rounded-md flex items-center justify-center text-white text-[10px] font-bold flex-shrink-0 overflow-hidden"
+            className="w-7 h-7 rounded-lg flex items-center justify-center text-white text-[10px] font-bold flex-shrink-0 overflow-hidden"
             style={{ backgroundColor: iconFile ? "transparent" : color }}
           >
             {iconFile ? (
               <img src={`/icons/${iconFile}`} alt="" className="w-full h-full object-cover" />
-            ) : null}
-            {(app.name || "?")[0].toUpperCase()}
+            ) : (
+              <span>{(app.name || "?")[0].toUpperCase()}</span>
+            )}
           </div>
           <div className="min-w-0">
             <h3 className="font-semibold text-sm text-gray-900 truncate">{app.name}</h3>
@@ -459,6 +460,7 @@ function AppDetailView({
   selectedScreens,
   onToggleSelect,
   DATA,
+  iconMap,
 }: {
   app: any;
   screens: any[];
@@ -467,6 +469,7 @@ function AppDetailView({
   selectedScreens: Set<string>;
   onToggleSelect: (screen: any) => void;
   DATA: any;
+  iconMap: Record<string, string>;
 }) {
   const [downloading, setDownloading] = useState(false);
   const versions = app.versions || [];
@@ -524,10 +527,14 @@ function AppDetailView({
             </svg>
           </button>
           <div
-            className="w-10 h-10 rounded-xl flex items-center justify-center text-white font-bold"
-            style={{ backgroundColor: color }}
+            className="w-10 h-10 rounded-xl flex items-center justify-center text-white font-bold overflow-hidden"
+            style={{ backgroundColor: iconMap?.[app.id] ? "transparent" : color }}
           >
-            {(app.name || "?")[0].toUpperCase()}
+            {iconMap?.[app.id] ? (
+              <img src={`/icons/${iconMap[app.id]}`} alt="" className="w-full h-full object-cover" />
+            ) : (
+              <span>{(app.name || "?")[0].toUpperCase()}</span>
+            )}
           </div>
           <div>
             <div className="flex items-center gap-3">
@@ -1428,6 +1435,7 @@ export default function Gallery() {
             selectedScreens={selectedScreens}
             onToggleSelect={toggleSelectScreen}
             DATA={DATA}
+            iconMap={iconMap}
           />
         )}
 

@@ -1,0 +1,7 @@
+{
+  "tool_name": "Bash",
+  "tool_input_preview": "{\"command\":\"cd \\\"/Users/gravitylabs/Downloads/이미지 소스/ref_image/gallery-next\\\" && git remote -v && gh repo view breadme221/insee-gallery --json url -q '.url' 2>/dev/null\",\"description\":\"Check if repo w...",
+  "error": "Exit code 1",
+  "timestamp": "2026-03-27T03:03:54.078Z",
+  "retry_count": 1
+}

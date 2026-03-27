@@ -7,6 +7,22 @@ import JSZip from "jszip";
 const S3_BASE = process.env.NEXT_PUBLIC_S3_BASE || "https://insight-x-gallery.s3.ap-northeast-2.amazonaws.com";
 const s3url = (path: string) => path?.startsWith("http") ? path : `${S3_BASE}/${path}`;
 
+// 데이터 로드 함수 — JS 파일에서 JSON 추출
+async function loadGalleryData(): Promise<any> {
+  try {
+    const res = await fetch("/data_tagged.js");
+    const text = await res.text();
+    const match = text.match(/const GALLERY_DATA\s*=\s*/);
+    if (!match) return null;
+    const start = match.index! + match[0].length;
+    const end = text.lastIndexOf("};") + 1;
+    return JSON.parse(text.slice(start, end));
+  } catch (e) {
+    console.error("Failed to load gallery data:", e);
+    return null;
+  }
+}
+
 // ==========================================
 // Agentation (dev only)
 // ==========================================
@@ -847,37 +863,17 @@ function Modal({
 // 메인 Gallery 컴포넌트
 // ==========================================
 export default function Gallery() {
-  // Data loading
-  const [DATA, setDATA] = useState<any>(getDATA());
+  // Data loading — fetch로 직접 로드
+  const [DATA, setDATA] = useState<any>({ apps: [], screens: [], categories: ['All'], patterns: ['All'] });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const d = getDATA();
-    setDATA(d);
-    setLoading(d.apps.length === 0);
-
-    // Poll for data if not yet loaded (scripts may load async)
-    if (d.apps.length === 0) {
-      const interval = setInterval(() => {
-        const fresh = getDATA();
-        if (fresh.apps.length > 0) {
-          setDATA(fresh);
-          setLoading(false);
-          clearInterval(interval);
-        }
-      }, 200);
-      // 최대 10초 대기
-      const timeout = setTimeout(() => {
-        clearInterval(interval);
-        setLoading(false);
-      }, 10000);
-      return () => {
-        clearInterval(interval);
-        clearTimeout(timeout);
-      };
-    } else {
+    loadGalleryData().then((data) => {
+      if (data && data.apps?.length > 0) {
+        setDATA(data);
+      }
       setLoading(false);
-    }
+    });
   }, []);
 
   // 스크린이 있는 앱만 필터

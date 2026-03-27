@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import Script from "next/script";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
@@ -17,10 +16,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" className={`${inter.variable} antialiased`}>
-      <head>
-        <Script src="/data_tagged.js" strategy="beforeInteractive" />
-        <Script src="/data_similarity.js" strategy="beforeInteractive" />
-      </head>
       <body className="min-h-screen bg-gray-50 text-gray-900">{children}</body>
     </html>
   );

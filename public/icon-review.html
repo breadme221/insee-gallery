@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><title>InSee 아이콘 검증</title>
+<style>
+body{font-family:-apple-system,sans-serif;max-width:1200px;margin:0 auto;padding:20px;background:#f5f5f5}
+h1{margin-bottom:5px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.card{background:white;border-radius:12px;padding:16px;display:flex;align-items:center;gap:12px;border:2px solid transparent;cursor:pointer}
+.card:hover{border-color:#6366f1}
+.card.wrong{border-color:#ef4444;background:#fef2f2}
+.icon{width:52px;height:52px;border-radius:12px;object-fit:cover;flex-shrink:0;background:#e5e7eb}
+.noicon{width:52px;height:52px;border-radius:12px;background:#d1d5db;display:flex;align-items:center;justify-content:center;color:white;font-weight:bold;font-size:20px;flex-shrink:0}
+.info{min-width:0}
+.name{font-weight:600;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.meta{font-size:11px;color:#888;margin-top:2px}
+.tag{font-size:10px;padding:2px 6px;border-radius:4px;background:#f3f4f6;color:#666;display:inline-block;margin-top:4px}
+.wrong-tag{background:#fecaca;color:#dc2626}
+.controls{margin:16px 0;display:flex;gap:8px;align-items:center}
+button{padding:8px 16px;border:none;border-radius:8px;cursor:pointer;font-size:13px}
+.btn-export{background:#6366f1;color:white}
+.counter{margin-left:auto;color:#888;font-size:13px}
+p.desc{color:#666;margin:4px 0 16px}
+</style></head><body>
+<h1>InSee 앱 아이콘 검증</h1>
+<p class="desc">카드를 클릭하면 ❌ 표시됩니다. 다시 클릭하면 해제. 완료 후 "잘못된 목록 복사" 버튼을 누르세요.</p>
+<div class="controls">
+<button class="btn-export" onclick="copyWrong()">잘못된 목록 복사</button>
+<span class="counter" id="counter">0 / 115 잘못됨</span>
+</div>
+<div class="grid">
+<div class="card" data-id="duolingo" data-name="Duolingo" onclick="toggle(this)">
+<img class="icon" src="icons/duolingo.png" alt="Duolingo">
+<div class="info"><div class="name">Duolingo</div><div class="meta">Education · Global</div>
+<span class="tag">duolingo</span></div></div>
+<div class="card" data-id="wwit_ruiiidtutor" data-name="뤼이드 튜터" onclick="toggle(this)">
+<img class="icon" src="icons/wwit_ruiiidtutor.png" alt="뤼이드 튜터">
+<div class="info"><div class="name">뤼이드 튜터</div><div class="meta">Education · Korea</div>
+<span class="tag">wwit_ruiiidtutor</span></div></div>
+<div class="card" data-id="wwit_vlive" data-name="V LIVE" onclick="toggle(this)">
+<img class="icon" src="icons/wwit_vlive.png" alt="V LIVE">
+<div class="info"><div class="name">V LIVE</div><div class="meta">Entertainment · Korea</div>
+<span class="tag">wwit_vlive</span></div></div>
+<div class="card" data-id="wwit_zepeto" data-name="ZEPETO" onclick="toggle(this)">
+<img class="icon" src="icons/wwit_zepeto.png" alt="ZEPETO">
+<div class="info"><div class="name">ZEPETO</div><div class="meta">Entertainment · Korea</div>
+<span class="tag">wwit_zepeto</span></div></div>
+<div class="card" data-id="wwit_daumwebtoon" data-name="다음 웹툰" onclick="toggle(this)">
+<img class="icon" src="icons/wwit_daumwebtoon.png" alt="다음 웹툰">
+<div class="info"><div class="name">다음 웹툰</div><div class="meta">Entertainment · Korea</div>
+<span class="tag">wwit_daumwebtoon</span></div></div>
+<div class="card" data-id="wwit_kakaowebtoon" data-name="카카오웹툰" onclick="toggle(this)">
+<img class="icon" src="icons/wwit_kakaowebtoon.png" alt="카카오웹툰">
+<div class="info"><div class="name">카카오웹툰</div><div class="meta">Entertainment · Korea</div>
+<span class="tag">wwit_kakaowebtoon</span></div></div>
+<div class="card" data-id="cash-app" data-name="Cash App" onclick="toggle(this)">
+<img class="icon" src="icons/cash-app.png" alt="Cash App">
+<div class="info"><div class="name">Cash App</div><div class="meta">Finance · Global</div>
+<span class="tag">cash-app</span></div></div>
+<div class="card" data-id="paypal" data-name="PayPal" onclick="toggle(this)">
+<img class="icon" src="icons/paypal.png" alt="PayPal">
+<div class="info"><div class="name">PayPal</div><div class="meta">Finance · Global</div>
+<span class="tag">paypal</span></div></div>
+<div class="card" data-id="paypay" data-name="PayPay" onclick="toggle(this)">
+<img class="icon" src="icons/paypay.png" alt="PayPay">
+<div class="info"><div class="name">PayPay</div><div class="meta">Finance · Japan</div>
+<span class="tag">paypay</span></div></div>
+<div class="card" data-id="toss" data-name="Toss" onclick="toggle(this)">
+<img class="icon" src="icons/toss.png" alt="Toss">
+<div class="info"><div class="name">Toss</div><div class="meta">Finance · Korea</div>
+<span class="tag">toss</span></div></div>
+<div class="card" data-id="v-point-pay" data-name="Vポイント" onclick="toggle(this)">
+<img class="icon" src="icons/v-point-pay.png" alt="Vポイント">
+<div class="info"><div class="name">Vポイント</div><div class="meta">Finance · Japan</div>
+<span class="tag">v-point-pay</span></div></div>
+<div class="card" data-id="zaim" data-name="Zaim" onclick="toggle(this)">
+<img class="icon" src="icons/zaim.png" alt="Zaim">
+<div class="info"><div class="name">Zaim</div><div class="meta">Finance · Japan</div>
+<span class="tag">zaim</span></div></div>
+<div class="card" data-id="au-pay" data-name="au PAY" onclick="toggle(this)">
+<img class="icon" src="icons/au-pay.png" alt="au PAY">
+<div class="info"><div class="name">au PAY</div><div class="meta">Finance · Japan</div>
+<span class="tag">au-pay</span></div></div>
+<div class="card" data-id="d-payment" data-name="d払い" onclick="toggle(this)">
+<img class="icon" src="icons/d-payment.png" alt="d払い">
+<div class="info"><div class="name">d払い</div><div class="meta">Finance · Japan</div>
+<span class="tag">d-payment</span></div></div>
+<div class="card" data-id="wwit_ministock" data-name="ministock" onclick="toggle(this)">
+<img class="icon" src="icons/wwit_ministock.png" alt="ministock">
+<div class="info"><div class="name">ministock</div><div class="meta">Finance · Korea</div>
+<span class="tag">wwit_ministock</span></div></div>
+<div class="card" data-id="moneyforward" data-name="マネーフォワード ME" onclick="toggle(this)">
+<img class="icon" src="icons/moneyforward.png" alt="マネーフォワード ME">
+<div class="info"><div class="name">マネーフォワード ME</div><div class="meta">Finance · Japan</div>
+<span class="tag">moneyforward</span></div></div>
+<div class="card" data-id="네이버페이_-_자산,_혜택,_현장결제" data-name="네이버페이 - 자산, 혜택, 현장결제" onclick="toggle(this)">
+<img class="icon" src="icons/네이버페이_-_자산,_혜택,_현장결제.png" alt="네이버페이 - 자산, 혜택, 현장결제">
+<div class="info"><div class="name">네이버페이 - 자산, 혜택, 현장결제</div><div class="meta">Finance · Korea</div>
+<span class="tag">네이버페이_-_자산,_혜택,_현장결제</span></div></div>
+<div class="card" data-id="wwit_domino" data-name="도미노" onclick="toggle(this)">
+<img class="icon" src="icons/wwit_domino.png" alt="도미노">
+<div class="info"><div class="name">도미노</div><div class="meta">Finance · Korea</div>
+<span class="tag">wwit_domino</span></div></div>
+<div class="card" data-id="wwit_monimo" data-name="모니모" onclick="toggle(this)">
+<img class="icon" src="icons/wwit_monimo.png" alt="모니모">
+<div class="info"><div class="name">모니모</div><div class="meta">Finance · Korea</div>
+<span class="tag">wwit_monimo</span></div></div>
+<div class="card" data-id="뱅크샐러드_banksalad" data-name="뱅크샐러드 Banksalad" onclick="toggle(this)">
+<img class="icon" src="icons/뱅크샐러드_banksalad.png" alt="뱅크샐러드 Banksalad">
+<div class="info"><div class="name">뱅크샐러드 Banksalad</div><div class="meta">Finance · Korea</div>
+<span class="tag">뱅크샐러드_banksalad</span></div></div>
+<div class="card" data-id="wwit_bomapp" data-name="보맵" onclick="toggle(this)">
+<img class="icon" src="icons/wwit_bomapp.png" alt="보맵">
+<div class="info"><div class="name">보맵</div><div class="meta">Finance · Korea</div>
+<span class="tag">wwit_bomapp</span></div></div>
+<div class="card" data-id="삼쩜삼" data-name="삼쩜삼" onclick="toggle(this)">
+<img class="icon" src="icons/삼쩜삼.png" alt="삼쩜삼">
+<div class="info"><div class="name">삼쩜삼</div><div class="meta">Finance · Korea</div>
+<span class="tag">삼쩜삼</span></div></div>
+<div class="card" data-id="신한플레이" data-name="신한플레이" onclick="toggle(this)">
+<img class="icon" src="icons/신한플레이.png" alt="신한플레이">
+<div class="info"><div class="name">신한플레이</div><div class="meta">Finance · Korea</div>
+<span class="tag">신한플레이</span></div></div>
+<div class="card" data-id="wwit_imin" data-name="아임인 imin" onclick="toggle(this)">
+<img class="icon" src="icons/wwit_imin.png" alt="아임인 imin">
+<div class="info"><div class="name">아임인 imin</div><div class="meta">Finance · Korea</div>
+<span class="tag">wwit_imin</span></div></div>
+<div class="card" data-id="차이_chai" data-name="차이 CHAI" onclick="toggle(this)">
+<img class="icon" src="icons/차이_chai.png" alt="차이 CHAI">
+<div class="info"><div class="name">차이 CHAI</div><div class="meta">Finance · Korea</div>
+<span class="tag">차이_chai</span></div></div>
+<div class="card" data-id="카카오페이" data-name="카카오페이" onclick="toggle(this)">
+<img class="icon" src="icons/카카오페이.png" alt="카카오페이">
+<div class="info"><div class="name">카카오페이</div><div class="meta">Finance · Korea</div>
+<span class="tag">카카오페이</span></div></div>
+<div class="card" data-id="wwit_coinone" data-name="코인원" onclick="toggle(this)">
+<img class="icon" src="icons/wwit_coinone.png" alt="코인원">
+<div class="info"><div class="name">코인원</div><div class="meta">Finance · Korea</div>
+<span class="tag">wwit_coinone</span></div></div>
+<div class="card" data-id="wwit_toss" data-name="토스" onclick="toggle(this)">
+<img class="icon" src="icons/wwit_toss.png" alt="토스">
+<div class="info"><div class="name">토스</div><div class="meta">Finance · Korea</div>
+<span class="tag">wwit_toss</span></div></div>
+<div class="card" data-id="wwit_finnq" data-name="핀크 (Finnq)" onclick="toggle(this)">
+<img class="icon" src="icons/wwit_finnq.png" alt="핀크 (Finnq)">
+<div class="info"><div class="name">핀크 (Finnq)</div><div class="meta">Finance · Korea</div>
+<span class="tag">wwit_finnq</span></div></div>
+<div class="card" data-id="uber-eats" data-name="Uber Eats" onclick="toggle(this)">
+<img class="icon" src="icons/uber-eats.png" alt="Uber Eats">
+<div class="info"><div class="name">Uber Eats</div><div class="meta">Food · Global</div>
+<span class="tag">uber-eats</span></div></div>
+<div class="card" data-id="배달의민족" data-name="배달의민족" onclick="toggle(this)">
+<img class="icon" src="icons/배달의민족.png" alt="배달의민족">
+<div class="info"><div class="name">배달의민족</div><div class="meta">Food · Korea</div>
+<span class="tag">배달의민족</span></div></div>
+<div class="card" data-id="wwit_starbucks" data-name="스타벅스" onclick="toggle(this)">
+<img class="icon" src="icons/wwit_starbucks.png" alt="스타벅스">
+<div class="info"><div class="name">스타벅스</div><div class="meta">Food · Korea</div>
+<span class="tag">wwit_starbucks</span></div></div>
+<div class="card" data-id="ahead" data-name="Ahead" onclick="toggle(this)">
+<img class="icon" src="icons/ahead.png" alt="Ahead">
+<div class="info"><div class="name">Ahead</div><div class="meta">Health · Global</div>
+<span class="tag">ahead</span></div></div>
+<div class="card" data-id="alan-mind" data-name="Alan Mind" onclick="toggle(this)">
+<img class="icon" src="icons/alan-mind.png" alt="Alan Mind">
+<div class="info"><div class="name">Alan Mind</div><div class="meta">Health · Global</div>
+<span class="tag">alan-mind</span></div></div>
+<div class="card" data-id="apple-fitness" data-name="Apple Fitness" onclick="toggle(this)">
+<img class="icon" src="icons/apple-fitness.png" alt="Apple Fitness">
+<div class="info"><div class="name">Apple Fitness</div><div class="meta">Health · Global</div>
+<span class="tag">apple-fitness</span></div></div>
+<div class="card" data-id="bend" data-name="Bend" onclick="toggle(this)">
+<img class="icon" src="icons/bend.png" alt="Bend">
+<div class="info"><div class="name">Bend</div><div class="meta">Health · Global</div>
+<span class="tag">bend</span></div></div>
+<div class="card" data-id="bevel" data-name="Bevel" onclick="toggle(this)">
+<img class="icon" src="icons/bevel.png" alt="Bevel">
+<div class="info"><div class="name">Bevel</div><div class="meta">Health · Global</div>
+<span class="tag">bevel</span></div></div>
+<div class="card" data-id="bitepal" data-name="BitePal" onclick="toggle(this)">
+<img class="icon" src="icons/bitepal.png" alt="BitePal">
+<div class="info"><div class="name">BitePal</div><div class="meta">Health · Global</div>
+<span class="tag">bitepal</span></div></div>
+<div class="card" data-id="cal-ai" data-name="Cal AI" onclick="toggle(this)">
+<img class="icon" src="icons/cal-ai.png" alt="Cal AI">
+<div class="info"><div class="name">Cal AI</div><div class="meta">Health · Global</div>
+<span class="tag">cal-ai</span></div></div>
+<div class="card" data-id="callie" data-name="Callie" onclick="toggle(this)">
+<img class="icon" src="icons/callie.png" alt="Callie">
+<div class="info"><div class="name">Callie</div><div class="meta">Health · Global</div>
+<span class="tag">callie</span></div></div>
+<div class="card" data-id="calm" data-name="Calm" onclick="toggle(this)">
+<img class="icon" src="icons/calm.png" alt="Calm">
+<div class="info"><div class="name">Calm</div><div class="meta">Health · Global</div>
+<span class="tag">calm</span></div></div>
+<div class="card" data-id="calm-sleep" data-name="Calm Sleep" onclick="toggle(this)">
+<img class="icon" src="icons/calm-sleep.png" alt="Calm Sleep">
+<div class="info"><div class="name">Calm Sleep</div><div class="meta">Health · Global</div>
+<span class="tag">calm-sleep</span></div></div>
+<div class="card" data-id="wwit_flo" data-name="FLO – 플로" onclick="toggle(this)">
+<img class="icon" src="icons/wwit_flo.png" alt="FLO – 플로">
+<div class="info"><div class="name">FLO – 플로</div><div class="meta">Health · Korea</div>
+<span class="tag">wwit_flo</span></div></div>
+<div class="card" data-id="fitbit" data-name="Fitbit" onclick="toggle(this)">
+<img class="icon" src="icons/fitbit.png" alt="Fitbit">
+<div class="info"><div class="name">Fitbit</div><div class="meta">Health · Global</div>
+<span class="tag">fitbit</span></div></div>
+<div class="card" data-id="flo" data-name="Flo" onclick="toggle(this)">
+<img class="icon" src="icons/flo.png" alt="Flo">
+<div class="info"><div class="name">Flo</div><div class="meta">Health · Global</div>
+<span class="tag">flo</span></div></div>
+<div class="card" data-id="google_fit" data-name="Google Fit" onclick="toggle(this)">
+<img class="icon" src="icons/google_fit.png" alt="Google Fit">
+<div class="info"><div class="name">Google Fit</div><div class="meta">Health · Global</div>
+<span class="tag">google_fit</span></div></div>
+<div class="card" data-id="headspace" data-name="Headspace" onclick="toggle(this)">
+<img class="icon" src="icons/headspace.png" alt="Headspace">
+<div class="info"><div class="name">Headspace</div><div class="meta">Health · Global</div>
+<span class="tag">headspace</span></div></div>
+<div class="card" data-id="lifesum" data-name="Lifesum" onclick="toggle(this)">
+<img class="icon" src="icons/lifesum.png" alt="Lifesum">
+<div class="info"><div class="name">Lifesum</div><div class="meta">Health · Global</div>
+<span class="tag">lifesum</span></div></div>
+<div class="card" data-id="myfitnesspal" data-name="MyFitnessPal" onclick="toggle(this)">
+<img class="icon" src="icons/myfitnesspal.png" alt="MyFitnessPal">
+<div class="info"><div class="name">MyFitnessPal</div><div class="meta">Health · Global</div>
+<span class="tag">myfitnesspal</span></div></div>
+<div class="card" data-id="nike-run-club" data-name="Nike Run Club" onclick="toggle(this)">
+<img class="icon" src="icons/nike-run-club.png" alt="Nike Run Club">
+<div class="info"><div class="name">Nike Run Club</div><div class="meta">Health · Global</div>
+<span class="tag">nike-run-club</span></div></div>
+<div class="card" data-id="noom" data-name="Noom" onclick="toggle(this)">
+<img class="icon" src="icons/noom.png" alt="Noom">
+<div class="info"><div class="name">Noom</div><div class="meta">Health · Global</div>
+<span class="tag">noom</span></div></div>
+<div class="card" data-id="pacer" data-name="Pacer" onclick="toggle(this)">
+<img class="icon" src="icons/pacer.png" alt="Pacer">
+<div class="info"><div class="name">Pacer</div><div class="meta">Health · Global</div>
+<span class="tag">pacer</span></div></div>
+<div class="card" data-id="pokemon_sleep" data-name="Pokemon Sleep" onclick="toggle(this)">
+<img class="icon" src="icons/pokemon_sleep.png" alt="Pokemon Sleep">
+<div class="info"><div class="name">Pokemon Sleep</div><div class="meta">Health · Global</div>
+<span class="tag">pokemon_sleep</span></div></div>
+<div class="card" data-id="stepsapp" data-name="StepsApp Pedometer" onclick="toggle(this)">
+<img class="icon" src="icons/stepsapp.png" alt="StepsApp Pedometer">
+<div class="info"><div class="name">StepsApp Pedometer</div><div class="meta">Health · Global</div>
+<span class="tag">stepsapp</span></div></div>
+<div class="card" data-id="strava" data-name="Strava" onclick="toggle(this)">
+<img class="icon" src="icons/strava.png" alt="Strava">
+<div class="info"><div class="name">Strava</div><div class="meta">Health · Global</div>
+<span class="tag">strava</span></div></div>
+<div class="card" data-id="stresswatch" data-name="Stresswatch" onclick="toggle(this)">
+<img class="icon" src="icons/stresswatch.png" alt="Stresswatch">
+<div class="info"><div class="name">Stresswatch</div><div class="meta">Health · Global</div>
+<span class="tag">stresswatch</span></div></div>
+<div class="card" data-id="zero" data-name="Zero" onclick="toggle(this)">
+<img class="icon" src="icons/zero.png" alt="Zero">
+<div class="info"><div class="name">Zero</div><div class="meta">Health · Global</div>
+<span class="tag">zero</span></div></div>
+<div class="card" data-id="nightly" data-name="nightly" onclick="toggle(this)">
+<img class="icon" src="icons/nightly.png" alt="nightly">
+<div class="info"><div class="name">nightly</div><div class="meta">Health · Global</div>
+<span class="tag">nightly</span></div></div>
+<div class="card" data-id="wakeout" data-name="wakeout" onclick="toggle(this)">
+<img class="icon" src="icons/wakeout.png" alt="wakeout">
+<div class="info"><div class="name">wakeout</div><div class="meta">Health · Global</div>
+<span class="tag">wakeout</span></div></div>
+<div class="card" data-id="あすけん" data-name="あすけん" onclick="toggle(this)">
+<img class="icon" src="icons/あすけん.png" alt="あすけん">
+<div class="info"><div class="name">あすけん</div><div class="meta">Health · Japan</div>
+<span class="tag">あすけん</span></div></div>
+<div class="card" data-id="wwit_elephant" data-name="코끼리" onclick="toggle(this)">
+<img class="icon" src="icons/wwit_elephant.png" alt="코끼리">
+<div class="info"><div class="name">코끼리</div><div class="meta">Health · Korea</div>
+<span class="tag">wwit_elephant</span></div></div>
+<div class="card" data-id="트로스트" data-name="트로스트" onclick="toggle(this)">
+<img class="icon" src="icons/트로스트.png" alt="트로스트">
+<div class="info"><div class="name">트로스트</div><div class="meta">Health · Korea</div>
+<span class="tag">트로스트</span></div></div>
+<div class="card" data-id="플랜핏" data-name="플랜핏" onclick="toggle(this)">
+<img class="icon" src="icons/플랜핏.png" alt="플랜핏">
+<div class="info"><div class="name">플랜핏</div><div class="meta">Health · Korea</div>
+<span class="tag">플랜핏</span></div></div>
+<div class="card" data-id="필라이즈" data-name="필라이즈" onclick="toggle(this)">
+<img class="icon" src="icons/필라이즈.png" alt="필라이즈">
+<div class="info"><div class="name">필라이즈</div><div class="meta">Health · Korea</div>
+<span class="tag">필라이즈</span></div></div>
+<div class="card" data-id="airbnb" data-name="Airbnb" onclick="toggle(this)">
+<img class="icon" src="icons/airbnb.png" alt="Airbnb">
+<div class="info"><div class="name">Airbnb</div><div class="meta">Lifestyle · Global</div>
+<span class="tag">airbnb</span></div></div>
+<div class="card" data-id="wwit_lgthinq" data-name="LG ThinQ" onclick="toggle(this)">
+<img class="icon" src="icons/wwit_lgthinq.png" alt="LG ThinQ">
+<div class="info"><div class="name">LG ThinQ</div><div class="meta">Lifestyle · Korea</div>
+<span class="tag">wwit_lgthinq</span></div></div>
+<div class="card" data-id="wwit_lifeplus" data-name="Lifeplus" onclick="toggle(this)">
+<img class="icon" src="icons/wwit_lifeplus.png" alt="Lifeplus">
+<div class="info"><div class="name">Lifeplus</div><div class="meta">Lifestyle · Korea</div>
+<span class="tag">wwit_lifeplus</span></div></div>
+<div class="card" data-id="spotify" data-name="Spotify" onclick="toggle(this)">
+<img class="icon" src="icons/spotify.png" alt="Spotify">
+<div class="info"><div class="name">Spotify</div><div class="meta">Lifestyle · Global</div>
+<span class="tag">spotify</span></div></div>
+<div class="card" data-id="mmm_엠엠엠" data-name="mmm 엠엠엠" onclick="toggle(this)">
+<img class="icon" src="icons/mmm_엠엠엠.png" alt="mmm 엠엠엠">
+<div class="info"><div class="name">mmm 엠엠엠</div><div class="meta">Lifestyle · Korea</div>
+<span class="tag">mmm_엠엠엠</span></div></div>
+<div class="card" data-id="닷슬래시대시" data-name="닷슬래시대시" onclick="toggle(this)">
+<img class="icon" src="icons/닷슬래시대시.png" alt="닷슬래시대시">
+<div class="info"><div class="name">닷슬래시대시</div><div class="meta">Lifestyle · Korea</div>
+<span class="tag">닷슬래시대시</span></div></div>
+<div class="card" data-id="당근마켓" data-name="당근마켓" onclick="toggle(this)">
+<img class="icon" src="icons/당근마켓.png" alt="당근마켓">
+<div class="info"><div class="name">당근마켓</div><div class="meta">Lifestyle · Korea</div>
+<span class="tag">당근마켓</span></div></div>
+<div class="card" data-id="런드리고" data-name="런드리고" onclick="toggle(this)">
+<img class="icon" src="icons/런드리고.png" alt="런드리고">
+<div class="info"><div class="name">런드리고</div><div class="meta">Lifestyle · Korea</div>
+<span class="tag">런드리고</span></div></div>
+<div class="card" data-id="뤼튼" data-name="뤼튼" onclick="toggle(this)">
+<img class="icon" src="icons/뤼튼.png" alt="뤼튼">
+<div class="info"><div class="name">뤼튼</div><div class="meta">Lifestyle · Korea</div>
+<span class="tag">뤼튼</span></div></div>
+<div class="card" data-id="wwit_miso" data-name="미소" onclick="toggle(this)">
+<img class="icon" src="icons/wwit_miso.png" alt="미소">
+<div class="info"><div class="name">미소</div><div class="meta">Lifestyle · Korea</div>
+<span class="tag">wwit_miso</span></div></div>
+<div class="card" data-id="wwit_millie" data-name="밀리의 서재" onclick="toggle(this)">
+<img class="icon" src="icons/wwit_millie.png" alt="밀리의 서재">
+<div class="info"><div class="name">밀리의 서재</div><div class="meta">Lifestyle · Korea</div>
+<span class="tag">wwit_millie</span></div></div>
+<div class="card" data-id="wwit_setak" data-name="세탁특공대" onclick="toggle(this)">
+<img class="icon" src="icons/wwit_setak.png" alt="세탁특공대">
+<div class="info"><div class="name">세탁특공대</div><div class="meta">Lifestyle · Korea</div>
+<span class="tag">wwit_setak</span></div></div>
+<div class="card" data-id="알라미" data-name="알라미" onclick="toggle(this)">
+<img class="icon" src="icons/알라미.png" alt="알라미">
+<div class="info"><div class="name">알라미</div><div class="meta">Lifestyle · Korea</div>
+<span class="tag">알라미</span></div></div>
+<div class="card" data-id="wwit_zigbang" data-name="직방" onclick="toggle(this)">
+<img class="icon" src="icons/wwit_zigbang.png" alt="직방">
+<div class="info"><div class="name">직방</div><div class="meta">Lifestyle · Korea</div>
+<span class="tag">wwit_zigbang</span></div></div>
+<div class="card" data-id="치지직_chzzk" data-name="치지직 CHZZK" onclick="toggle(this)">
+<img class="icon" src="icons/치지직_chzzk.png" alt="치지직 CHZZK">
+<div class="info"><div class="name">치지직 CHZZK</div><div class="meta">Lifestyle · Korea</div>
+<span class="tag">치지직_chzzk</span></div></div>
+<div class="card" data-id="wwit_texture" data-name="텍스처 texture" onclick="toggle(this)">
+<img class="icon" src="icons/wwit_texture.png" alt="텍스처 texture">
+<div class="info"><div class="name">텍스처 texture</div><div class="meta">Lifestyle · Korea</div>
+<span class="tag">wwit_texture</span></div></div>
+<div class="card" data-id="wwit_dive" data-name="현대카드 DIVE" onclick="toggle(this)">
+<img class="icon" src="icons/wwit_dive.png" alt="현대카드 DIVE">
+<div class="info"><div class="name">현대카드 DIVE</div><div class="meta">Lifestyle · Korea</div>
+<span class="tag">wwit_dive</span></div></div>
+<div class="card" data-id="호갱노노" data-name="호갱노노" onclick="toggle(this)">
+<img class="icon" src="icons/호갱노노.png" alt="호갱노노">
+<div class="info"><div class="name">호갱노노</div><div class="meta">Lifestyle · Korea</div>
+<span class="tag">호갱노노</span></div></div>
+<div class="card" data-id="fetch" data-name="Fetch" onclick="toggle(this)">
+<img class="icon" src="icons/fetch.png" alt="Fetch">
+<div class="info"><div class="name">Fetch</div><div class="meta">Rewards · Global</div>
+<span class="tag">fetch</span></div></div>
+<div class="card" data-id="freecash" data-name="Freecash" onclick="toggle(this)">
+<img class="icon" src="icons/freecash.png" alt="Freecash">
+<div class="info"><div class="name">Freecash</div><div class="meta">Rewards · Global</div>
+<span class="tag">freecash</span></div></div>
+<div class="card" data-id="rakuten" data-name="Rakuten" onclick="toggle(this)">
+<img class="icon" src="icons/rakuten.png" alt="Rakuten">
+<div class="info"><div class="name">Rakuten</div><div class="meta">Rewards · Global</div>
+<span class="tag">rakuten</span></div></div>
+<div class="card" data-id="sweatcoin" data-name="Sweatcoin" onclick="toggle(this)">
+<img class="icon" src="icons/sweatcoin.png" alt="Sweatcoin">
+<div class="info"><div class="name">Sweatcoin</div><div class="meta">Rewards · Global</div>
+<span class="tag">sweatcoin</span></div></div>
+<div class="card" data-id="cashwalk_jp" data-name="cashwalk_jp" onclick="toggle(this)">
+<img class="icon" src="icons/cashwalk_jp.png" alt="cashwalk_jp">
+<div class="info"><div class="name">cashwalk_jp</div><div class="meta">Rewards · Japan</div>
+<span class="tag">cashwalk_jp</span></div></div>
+<div class="card" data-id="cashwalk_us" data-name="cashwalk_us" onclick="toggle(this)">
+<img class="icon" src="icons/cashwalk_us.png" alt="cashwalk_us">
+<div class="info"><div class="name">cashwalk_us</div><div class="meta">Rewards · Global</div>
+<span class="tag">cashwalk_us</span></div></div>
+<div class="card" data-id="macadam" data-name="macadam" onclick="toggle(this)">
+<img class="icon" src="icons/macadam.png" alt="macadam">
+<div class="info"><div class="name">macadam</div><div class="meta">Rewards · Global</div>
+<span class="tag">macadam</span></div></div>
+<div class="card" data-id="weward" data-name="weward" onclick="toggle(this)">
+<img class="icon" src="icons/weward.png" alt="weward">
+<div class="info"><div class="name">weward</div><div class="meta">Rewards · Global</div>
+<span class="tag">weward</span></div></div>
+<div class="card" data-id="winwalk" data-name="winwalk" onclick="toggle(this)">
+<img class="icon" src="icons/winwalk.png" alt="winwalk">
+<div class="info"><div class="name">winwalk</div><div class="meta">Rewards · Global</div>
+<span class="tag">winwalk</span></div></div>
+<div class="card" data-id="슬립머니" data-name="슬립머니" onclick="toggle(this)">
+<div class="noicon">ᄉ</div>
+<div class="info"><div class="name">슬립머니</div><div class="meta">Rewards · Korea</div>
+<span class="tag">슬립머니</span></div></div>
+<div class="card" data-id="야핏무브" data-name="야핏무브" onclick="toggle(this)">
+<img class="icon" src="icons/야핏무브.png" alt="야핏무브">
+<div class="info"><div class="name">야핏무브</div><div class="meta">Rewards · Korea</div>
+<span class="tag">야핏무브</span></div></div>
+<div class="card" data-id="kurashiru-rewards" data-name="クラシルリワード" onclick="toggle(this)">
+<img class="icon" src="icons/kurashiru-rewards.png" alt="クラシルリワード">
+<div class="info"><div class="name">クラシルリワード</div><div class="meta">Rewards · Japan</div>
+<span class="tag">kurashiru-rewards</span></div></div>
+<div class="card" data-id="torima" data-name="トリマ (Torima)" onclick="toggle(this)">
+<img class="icon" src="icons/torima.png" alt="トリマ (Torima)">
+<div class="info"><div class="name">トリマ (Torima)</div><div class="meta">Rewards · Japan</div>
+<span class="tag">torima</span></div></div>
+<div class="card" data-id="moneypig" data-name="돈이돼지" onclick="toggle(this)">
+<img class="icon" src="icons/moneypig.png" alt="돈이돼지">
+<div class="info"><div class="name">돈이돼지</div><div class="meta">Rewards · Korea</div>
+<span class="tag">moneypig</span></div></div>
+<div class="card" data-id="bitbuni" data-name="비트버니" onclick="toggle(this)">
+<img class="icon" src="icons/bitbuni.png" alt="비트버니">
+<div class="info"><div class="name">비트버니</div><div class="meta">Rewards · Korea</div>
+<span class="tag">bitbuni</span></div></div>
+<div class="card" data-id="orak" data-name="오락" onclick="toggle(this)">
+<img class="icon" src="icons/orak.png" alt="오락">
+<div class="info"><div class="name">오락</div><div class="meta">Rewards · Korea</div>
+<span class="tag">orak</span></div></div>
+<div class="card" data-id="wwit_cashslide" data-name="캐시슬라이드" onclick="toggle(this)">
+<img class="icon" src="icons/wwit_cashslide.png" alt="캐시슬라이드">
+<div class="info"><div class="name">캐시슬라이드</div><div class="meta">Rewards · Korea</div>
+<span class="tag">wwit_cashslide</span></div></div>
+<div class="card" data-id="cashwalk" data-name="캐시워크" onclick="toggle(this)">
+<img class="icon" src="icons/cashwalk.png" alt="캐시워크">
+<div class="info"><div class="name">캐시워크</div><div class="meta">Rewards · Korea</div>
+<span class="tag">cashwalk</span></div></div>
+<div class="card" data-id="wwit_29cm" data-name="29CM" onclick="toggle(this)">
+<img class="icon" src="icons/wwit_29cm.png" alt="29CM">
+<div class="info"><div class="name">29CM</div><div class="meta">Shopping · Korea</div>
+<span class="tag">wwit_29cm</span></div></div>
+<div class="card" data-id="wwit_kream" data-name="KREAM (크림)" onclick="toggle(this)">
+<img class="icon" src="icons/wwit_kream.png" alt="KREAM (크림)">
+<div class="info"><div class="name">KREAM (크림)</div><div class="meta">Shopping · Korea</div>
+<span class="tag">wwit_kream</span></div></div>
+<div class="card" data-id="target" data-name="Target" onclick="toggle(this)">
+<img class="icon" src="icons/target.png" alt="Target">
+<div class="info"><div class="name">Target</div><div class="meta">Shopping · Global</div>
+<span class="tag">target</span></div></div>
+<div class="card" data-id="walmart" data-name="Walmart" onclick="toggle(this)">
+<img class="icon" src="icons/walmart.png" alt="Walmart">
+<div class="info"><div class="name">Walmart</div><div class="meta">Shopping · Global</div>
+<span class="tag">walmart</span></div></div>
+<div class="card" data-id="wwit_marketkulry" data-name="마켓컬리" onclick="toggle(this)">
+<img class="icon" src="icons/wwit_marketkulry.png" alt="마켓컬리">
+<div class="info"><div class="name">마켓컬리</div><div class="meta">Shopping · Korea</div>
+<span class="tag">wwit_marketkulry</span></div></div>
+<div class="card" data-id="wwit_ohouse" data-name="오늘의집" onclick="toggle(this)">
+<img class="icon" src="icons/wwit_ohouse.png" alt="오늘의집">
+<div class="info"><div class="name">오늘의집</div><div class="meta">Shopping · Korea</div>
+<span class="tag">wwit_ohouse</span></div></div>
+<div class="card" data-id="지그재그" data-name="지그재그" onclick="toggle(this)">
+<img class="icon" src="icons/지그재그.png" alt="지그재그">
+<div class="info"><div class="name">지그재그</div><div class="meta">Shopping · Korea</div>
+<span class="tag">지그재그</span></div></div>
+<div class="card" data-id="쿠팡" data-name="쿠팡" onclick="toggle(this)">
+<img class="icon" src="icons/쿠팡.png" alt="쿠팡">
+<div class="info"><div class="name">쿠팡</div><div class="meta">Shopping · Korea</div>
+<span class="tag">쿠팡</span></div></div>
+<div class="card" data-id="uber" data-name="Uber" onclick="toggle(this)">
+<img class="icon" src="icons/uber.png" alt="Uber">
+<div class="info"><div class="name">Uber</div><div class="meta">Transport · Global</div>
+<span class="tag">uber</span></div></div>
+<div class="card" data-id="bolt" data-name="bolt" onclick="toggle(this)">
+<img class="icon" src="icons/bolt.png" alt="bolt">
+<div class="info"><div class="name">bolt</div><div class="meta">Transport · Global</div>
+<span class="tag">bolt</span></div></div>
+<div class="card" data-id="revolt_리볼트" data-name="revolt 리볼트" onclick="toggle(this)">
+<img class="icon" src="icons/revolt_리볼트.png" alt="revolt 리볼트">
+<div class="info"><div class="name">revolt 리볼트</div><div class="meta">Transport · Korea</div>
+<span class="tag">revolt_리볼트</span></div></div>
+<div class="card" data-id="카닥" data-name="카닥" onclick="toggle(this)">
+<img class="icon" src="icons/카닥.png" alt="카닥">
+<div class="info"><div class="name">카닥</div><div class="meta">Transport · Korea</div>
+<span class="tag">카닥</span></div></div>
+<div class="card" data-id="wwit_kakaot" data-name="카카오 T" onclick="toggle(this)">
+<img class="icon" src="icons/wwit_kakaot.png" alt="카카오 T">
+<div class="info"><div class="name">카카오 T</div><div class="meta">Transport · Korea</div>
+<span class="tag">wwit_kakaot</span></div></div>
+<div class="card" data-id="타다_tada" data-name="타다 TADA" onclick="toggle(this)">
+<img class="icon" src="icons/타다_tada.png" alt="타다 TADA">
+<div class="info"><div class="name">타다 TADA</div><div class="meta">Transport · Korea</div>
+<span class="tag">타다_tada</span></div></div>
+<div class="card" data-id="헤이딜러" data-name="헤이딜러" onclick="toggle(this)">
+<img class="icon" src="icons/헤이딜러.png" alt="헤이딜러">
+<div class="info"><div class="name">헤이딜러</div><div class="meta">Transport · Korea</div>
+<span class="tag">헤이딜러</span></div></div>
+</div>
+<script>
+function toggle(el){
+  el.classList.toggle('wrong');
+  const t=el.querySelector('.tag');
+  t.classList.toggle('wrong-tag');
+  updateCounter();
+}
+function updateCounter(){
+  const n=document.querySelectorAll('.card.wrong').length;
+  document.getElementById('counter').textContent=n+' / 115 잘못됨';
+}
+function copyWrong(){
+  const items=[...document.querySelectorAll('.card.wrong')].map(c=>c.dataset.id+': '+c.dataset.name);
+  if(!items.length){alert('잘못된 아이콘이 없습니다!');return;}
+  navigator.clipboard.writeText(items.join('\n')).then(()=>alert(items.length+'개 복사됨!'));
+}
+</script></body></html>

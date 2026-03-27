@@ -906,17 +906,19 @@ export default function Gallery() {
   const [loadError, setLoadError] = useState<string | null>(null);
 
   useEffect(() => {
+    console.log("[InSee] 데이터 로딩 시작...");
     loadGalleryData()
       .then((data) => {
+        console.log("[InSee] 로딩 결과:", data ? `${data.apps?.length}개 앱, ${data.screens?.length}개 스크린` : "null");
         if (data && data.apps?.length > 0) {
           setDATA(data);
         } else {
-          setLoadError("데이터를 불러왔지만 앱이 없습니다. S3 데이터를 확인해주세요.");
+          setLoadError("데이터를 불러왔지만 앱이 없습니다. 브라우저 콘솔(F12)을 확인해주세요.");
         }
         setLoading(false);
       })
       .catch((e) => {
-        console.error("Data load failed:", e);
+        console.error("[InSee] Data load failed:", e);
         setLoadError(`데이터 로딩 실패: ${e.message || "네트워크 오류"}`);
         setLoading(false);
       });
